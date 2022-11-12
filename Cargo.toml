@@ -4,7 +4,13 @@ name = "rust-srtp-bench"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+# Defines a feature named `webp` that does not enable any other features.
+sha = []
 
 [dependencies]
+anyhow = "1.0.66"
+hex = "0.4.3"
+hex-literal = "0.3.4"
+sha2 = "0.10.6"
 srtp = "0.7.0"
-hex="0.4.3"
