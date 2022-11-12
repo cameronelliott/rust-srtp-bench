@@ -21,18 +21,20 @@ fn main() {
     println!("key = {:?}", key);
     println!("plain len = {:?}", plain.len());
 
+    //let policy = srtp::CryptoPolicy::aes_gcm_128_16_auth();
+    let policy = srtp::CryptoPolicy::aes_cm_128_hmac_sha1_80();
     let mut session = srtp::Session::with_inbound_template(srtp::StreamPolicy {
         key: &key,
-        rtp: srtp::CryptoPolicy::aes_gcm_128_16_auth(),
-        rtcp: srtp::CryptoPolicy::aes_gcm_128_16_auth(),
+        rtp: policy,
+        rtcp: policy,
         ..Default::default()
     })
     .unwrap();
 
-    const n: usize = 1e6 as usize;
+    const N: usize = 1e5 as usize;
 
     let now = Instant::now();
-    for x in 1..(n as usize) {
+    for x in 1..(N as usize) {
         plain[2] = ((x >> 8) & 0xff) as u8;
         plain[3] = (x & 0xff) as u8;
 
@@ -45,8 +47,8 @@ fn main() {
     }
 
     let elapsed = now.elapsed();
-    let nbits = n * plain.len() * 8;
+    let nbits = N * plain.len() * 8;
     let secs = elapsed.as_secs_f64();
-    println!("Elapsed: {:.2?}", elapsed);
-    println!("Throughput: {:.2?} Gbps", nbits as f64 / secs / 1e9);
+    println!("Elapsed: {:.1?}", elapsed);
+    println!("Throughput: {:.1?} Gbps", nbits as f64 / secs / 1e9);
 }
