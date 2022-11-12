@@ -12,7 +12,7 @@ fn main() {
     plain.retain(|c| !c.is_whitespace());
     let mut plain = hex::decode(plain).unwrap();
     //  let mut packet = b"not a valid SRTP packet".to_vec();
-    let more: [u8; 0] = core::array::from_fn(|i| (i) as u8);
+    let more: [u8; 1000] = core::array::from_fn(|i| (i) as u8);
     plain.append(&mut more.to_vec());
 
     //google srtp 128 key 112 salt
